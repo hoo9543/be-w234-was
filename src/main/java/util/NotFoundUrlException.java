@@ -1,2 +1,7 @@
-package util;public class notFoundUrlException {
+package util;
+
+public class NotFoundUrlException extends RuntimeException {
+    public NotFoundUrlException(String e) {
+        super(e);
+    }
 }
