@@ -11,12 +11,10 @@ public class ParsingTest {
     @DisplayName("URL을 찾을 수 없는 경우 error NotFoundUrlException 발생")
     void parsingErrorTest(){
         //Assertions.assertThrows(NotFoundUrlException.class,()->urlFromRequestLine("get"));
-
         assertThatThrownBy(()-> getUrlFromRequestLine("get"))
                 .isInstanceOf(NotFoundUrlException.class)
                 .hasMessage("Can not find URL");
     }
-
 
     @Test
     @DisplayName("URL parsing 확인")
