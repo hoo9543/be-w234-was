@@ -1,8 +1,8 @@
-package webserver;
+package webserver.controller;
 
-import util.ModelAndView;
-import util.Request;
-import util.Response;
+import webserver.basic.ModelAndView;
+import webserver.basic.Request;
+import webserver.basic.Response;
 
 public interface Controller {
     ModelAndView process(Request request, Response response);
