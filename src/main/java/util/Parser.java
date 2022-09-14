@@ -4,10 +4,10 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Parsing {
+public class Parser {
 
     public static Map<String, String> getParamsFromString(String Str) {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         String[] keyValues = Str.split("&");
         for (String keyValue : keyValues) {
             String[] value = StringDivideAndCheckNum(keyValue,"=",2);
@@ -17,11 +17,11 @@ public class Parsing {
     }
 
     public static String[] StringDivideAndCheckNum(String str, String delimiter, int CheckNum){
-        String[] splitedStr = str.split(delimiter);
-        if (splitedStr.length != CheckNum) {
-            throw new IllegalArgumentException("");
+        String[] splitStr = str.split(delimiter);
+        if (splitStr.length != CheckNum) {
+            throw new IllegalArgumentException("Split string and CheckNumber do not match");
         }
-        return splitedStr;
+        return splitStr;
     }
 
 
