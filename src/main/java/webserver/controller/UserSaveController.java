@@ -14,16 +14,18 @@ import java.util.Map;
 
 public class UserSaveController implements Controller {
     private static final Logger logger = LoggerFactory.getLogger(UserSaveController.class);
-    private static Database repository = Database.getDatabase();
+    //private static Database repository = Database.getDatabase();
     private UserService userService = new UserService();
     @Override
     public ModelAndView process(Request request,Response response){
         Map<String,String> params = request.getParams();
         User user = new User(params.get("userId"),params.get("password"),params.get("name"),params.get("email"));
+
+        userService.SignUp(user);
+        
         ModelAndView modelAndView = new ModelAndView("/index.html");
         modelAndView.getParams().put("User",user);
         response.setStatusCode(StatusCode.FOUND);
-        userService.SignUp(user);
 
         logger.debug("userId: " + user.getUserId());
 
