@@ -34,6 +34,7 @@ public class HttpParser {
             response.getHeaders().put("Content-Type", "text/css");
         }
         */
+        
         if (request.getUrl().contains(".css")) {
             response.getHeaders().put("Content-Type", "text/css");
         }
