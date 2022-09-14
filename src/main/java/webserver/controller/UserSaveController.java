@@ -4,6 +4,7 @@ import db.Database;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import service.UserService;
 import webserver.basic.ModelAndView;
 import webserver.basic.Request;
 import webserver.basic.Response;
@@ -14,6 +15,7 @@ import java.util.Map;
 public class UserSaveController implements Controller {
     private static final Logger logger = LoggerFactory.getLogger(UserSaveController.class);
     private static Database repository = Database.getDatabase();
+    private UserService userService = new UserService();
     @Override
     public ModelAndView process(Request request,Response response){
         Map<String,String> params = request.getParams();
@@ -21,7 +23,7 @@ public class UserSaveController implements Controller {
         ModelAndView modelAndView = new ModelAndView("/index.html");
         modelAndView.getParams().put("User",user);
         response.setStatusCode(StatusCode.FOUND);
-        repository.addUser(user);
+        userService.SignUp(user);
 
         logger.debug("userId: " + user.getUserId());
 
