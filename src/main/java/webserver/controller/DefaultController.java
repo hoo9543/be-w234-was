@@ -1,12 +1,12 @@
-package webserver;
+package webserver.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import util.ModelAndView;
-import util.Request;
-import util.Response;
+import webserver.basic.ModelAndView;
+import webserver.basic.Request;
+import webserver.basic.Response;
 
-public class DefaultController implements Controller{
+public class DefaultController implements Controller {
     private static final Logger logger = LoggerFactory.getLogger(DefaultController.class);
 
     @Override
