@@ -1,21 +1,28 @@
 package util;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static util.Parsing.*;
+import static util.Parser.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-public class ParsingTest {
+public class ParserTest {
 
     @Test
-    @DisplayName("구분자로 String을 정확히 2개의 String으로 구분하는 getStringPairSplitedByDelimiter 함수 Test ")
-    void parsingErrorTest(){
+    @DisplayName("String split 할 때, String이 나누어진 개수와 입력한 숫자의 개수가 다를때 error 발생 ")
+    void splitCheckErrorTest(){
         //Assertions.assertThrows(NotFoundUrlException.class,()->urlFromRequestLine("get"));
         assertThatThrownBy(()-> StringDivideAndCheckNum("GET /index.html http/1.1"," ",2))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("");
+                .hasMessage("Split string and CheckNumber do not match");
     }
 
+    @Test
+    @DisplayName("String split 할 때 String이 나누어진 개수와 입력한 숫자가 같음 ")
+    void splitTest(){
+        //Assertions.assertThrows(NotFoundUrlException.class,()->urlFromRequestLine("get"));
+        assertThat(StringDivideAndCheckNum("GET /index.html http1.1"," ",3)[1])
+                .isEqualTo("/index.html");
 
+    }
 
 }
