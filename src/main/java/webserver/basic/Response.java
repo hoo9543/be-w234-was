@@ -1,9 +1,9 @@
-package util;
+package webserver.basic;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static util.StatusCode.OK;
+import static webserver.basic.StatusCode.OK;
 
 public class Response {
     private String protocol="";
