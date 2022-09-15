@@ -1,4 +1,4 @@
-package webserver.exception;
+package exception;
 
 public class NotFoundUrlException extends RuntimeException {
     public NotFoundUrlException(String e) {

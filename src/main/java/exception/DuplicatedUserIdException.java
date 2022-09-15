@@ -1,4 +1,4 @@
-package webserver.exception;
+package exception;
 
 public class DuplicatedUserIdException extends RuntimeException {
     public DuplicatedUserIdException(String e) {
