@@ -2,13 +2,10 @@ package util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import webserver.basic.HttpMethod;
-import webserver.basic.ModelAndView;
-import webserver.basic.Request;
-import webserver.basic.Response;
+import webserver.http.HttpMethod;
+import webserver.http.Request;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,61 +15,15 @@ import static util.Parser.getParamsFromString;
 public class HttpParser {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpParser.class);
-    private BufferedReader br;
-    private DataOutputStream dos;
-    public HttpParser(InputStream in, OutputStream out) throws IOException {
-        br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
-        dos = new DataOutputStream(out);
-    }
-
-    public void setResponseFromModel(ModelAndView model, Request request, Response response) throws IOException {
-        byte[] body = Files.readAllBytes(new File("./webapp" + model.getPath()).toPath());
-        response.setProtocol(request.getProtocol());
-        response.getHeaders().put("Content-Type","text/html;charset=utf-8");
-        /*
-        if (request.getHeaders().get("Accept").contains("text/css")){
-            response.getHeaders().put("Content-Type", "text/css");
-        }
-        */
-
-        if (request.getUrl().contains(".css")) {
-            response.getHeaders().put("Content-Type", "text/css");
-        }
-
-        response.setBody(body);
-        response.getHeaders().put("content-Length", String.valueOf(body.length));
-    }
-
-    public void writeOutputStreamFromResponse(Response response) throws IOException{
-        try{
-            dos.writeBytes(response.getProtocol()+" "+
-                              response.getStatusCode().getValue()+" "+
-                              response.getStatusCode().getDescription() + "\r\n");
-
-            response.getHeaders().forEach((key,value)-> {
-                try {
-                    dos.writeBytes(key+": "+value+" "+"\r\n");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-
-            dos.writeBytes("\r\n");
-            dos.write(response.getBody(), 0, response.getBody().length);
-            dos.flush();
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-    }
 
 
-    public Request getProcessedRequestFromHttpRequest() throws IOException {
-
+    public Request getProcessedRequestFromHttpRequest(InputStream in) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
         String line = br.readLine();
         logger.debug("request line : {}", line);
         RequestLineData requestLineData = getRequestDataFromRequestLine(line);
-        Map<String, String> headers = getHeadersFromInputStream();
-        String body = getBodyFromInputStream();
+        Map<String, String> headers = getHeadersFromInputStream(br);
+        String body = getBodyFromInputStream(br);
         return new Request(requestLineData.getHttpMethod(), requestLineData.getUrl(), requestLineData.getParams(), headers, body, requestLineData.getProtocol());
     }
 
@@ -86,7 +37,7 @@ public class HttpParser {
         return new RequestLineData(HttpMethod.valueOf(request[0]), request[1], request[2]);
     }
 
-    public Map<String, String> getHeadersFromInputStream() throws IOException {
+    public Map<String, String> getHeadersFromInputStream(BufferedReader br) throws IOException {
         Map<String, String> headers = new HashMap<>();
         String line = br.readLine();
         while (!"".equals(line)) {
@@ -102,7 +53,7 @@ public class HttpParser {
         return headers;
     }
 
-    public String getBodyFromInputStream() throws IOException {
+    public String getBodyFromInputStream(BufferedReader br) throws IOException {
         return "";
     }
 
