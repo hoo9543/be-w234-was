@@ -6,7 +6,7 @@ import model.User;
 public class UserService {
     private static Database repository = Database.getDatabase();
 
-    public void SignUp(User user){
+    public void signUp(User user){
         if (repository.findUserById(user.getUserId()) != null){
             throw new IllegalArgumentException("This userId already exists");
         }
