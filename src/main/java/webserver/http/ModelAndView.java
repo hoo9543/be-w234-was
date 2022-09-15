@@ -1,6 +1,4 @@
-package webserver.basic;
-
-import webserver.basic.StatusCode;
+package webserver.http;
 
 import java.util.HashMap;
 import java.util.Map;
