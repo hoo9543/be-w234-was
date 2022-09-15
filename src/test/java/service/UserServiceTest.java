@@ -18,9 +18,9 @@ public class UserServiceTest {
         User user1 = new User("user1","pw1","name1","email");
         User user2 = new User("user1","pw2","name2","email2");
 
-        userService.SignUp(user1);
+        userService.signUp(user1);
 
-        assertThatThrownBy(()-> userService.SignUp(user1))
+        assertThatThrownBy(()-> userService.signUp(user1))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("This userId already exists");
     }
