@@ -1,4 +1,4 @@
-package webserver.basic;
+package webserver.http;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
-import static webserver.basic.StatusCode.OK;
+import static webserver.http.StatusCode.OK;
 
 public class Response {
     private String httpVersion ="";
@@ -63,15 +63,14 @@ public class Response {
     public Response(){}
 
     public void setResponseFromModelAndRequest(ModelAndView model, Request request) throws IOException {
-        byte[] body = Files.readAllBytes(new File("./webapp" + model.getPath()).toPath());
         setHttpVersion(request.getHttpVersion());
         setContentType(model.getPath());
+        byte[] body = Files.readAllBytes(new File("./webapp" + model.getPath()).toPath());
         setBody(body);
         setContentLength();
     }
 
     private void setContentType(String path){
-
         if (path.contains("css")){
             headers.put("Content-Type", "text/css");
             return;
