@@ -5,13 +5,12 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-import db.Database;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.HttpParser;
-import webserver.basic.ModelAndView;
-import webserver.basic.Request;
-import webserver.basic.Response;
+import webserver.http.ModelAndView;
+import webserver.http.Request;
+import webserver.http.Response;
 import webserver.controller.Controller;
 import webserver.controller.DefaultController;
 import webserver.controller.UserSaveController;
@@ -23,12 +22,11 @@ public class RequestHandler implements Runnable {
     private Socket connection;
     private Map<String, Controller> urlMappingMap = new HashMap<>();
     private HttpParser httpParser;
-    private Database database;
 
     public RequestHandler(Socket connectionSocket) {
         this.connection = connectionSocket;
         initUrlMappingMap();
-        database = new Database();
+        httpParser = new HttpParser();
     }
 
     private void initUrlMappingMap(){
@@ -41,15 +39,15 @@ public class RequestHandler implements Runnable {
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
-            HttpParser httpParser = new HttpParser(in,out);
-            Request request = httpParser.getProcessedRequestFromHttpRequest();
-            Response response = new Response();
-
+            Request request = httpParser.getProcessedRequestFromHttpRequest(in);
             Controller controller = getController(request);
 
+            Response response = new Response();
             ModelAndView modelAndView = controller.process(request,response);
-            httpParser.setResponseFromModel(modelAndView,request,response);
-            httpParser.writeOutputStreamFromResponse(response);
+            response.setResponseFromModelAndRequest(modelAndView,request);
+            DataOutputStream dos = new DataOutputStream(out);
+            response.sendResponse(dos);
+
         } catch (IOException e) {
             logger.error(e.getMessage());
         } catch (RuntimeException e){

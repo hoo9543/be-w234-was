@@ -9,15 +9,15 @@ public class Request {
     private Map<String,String> headers;
     private String body;
 
-    private String protocol;
+    private String httpVersion;
 
-    public Request(HttpMethod httpMethod, String url, Map<String,String> params,Map<String,String> headers,String body,String protocol){
+    public Request(HttpMethod httpMethod, String url, Map<String,String> params,Map<String,String> headers,String body,String httpVersion){
         this.httpMethod = httpMethod;
         this.url = url;
         this.params = params;
         this.headers= headers;
         this.body = body;
-        this.protocol = protocol;
+        this.httpVersion = httpVersion;
     }
 
     public HttpMethod getHttpMethod() {return httpMethod;}
@@ -25,6 +25,7 @@ public class Request {
     public Map<String,String> getParams() { return params; }
     public Map<String,String> getHeaders() { return headers; }
     public String getBody() { return body; }
-    public String getProtocol() { return protocol; }
+    public String getHttpVersion() { return httpVersion; }
+
 
 }
