@@ -5,30 +5,30 @@ public enum ContentType {
     HTML("html","text/html;charset=utf-8");
 
     private final String extension;
-    private final String contentType;
+    private final String description;
 
-    ContentType(String extension,String contentType) {
+    ContentType(String extension,String description) {
         this.extension = extension;
-        this.contentType = contentType;
+        this.description = description;
     }
 
     public String getExtension(){
         return extension;
     }
-    public String getContentType() {
-        return contentType;
+    public String getDescription() {
+        return description;
     }
 
     @Override
     public String toString() {
-        return "Content-Type: " + contentType;
+        return "Content-Type: " + description;
     }
 
-    public static String getContentTypeFromPath(String path){
+    public static ContentType getContentTypeFromPath(String path){
         String[] splitPath = path.split("\\.");
         for(ContentType contentType:ContentType.values()){
             if(contentType.extension.equals(splitPath[splitPath.length-1])){
-                return contentType.contentType;
+                return contentType;
             }
         }
         return null;
