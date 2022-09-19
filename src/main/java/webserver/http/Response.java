@@ -72,9 +72,9 @@ public class Response {
     }
 
     private void setContentType(String path){
-        String contentType = getContentTypeFromPath(path);
+        ContentType contentType = getContentTypeFromPath(path);
         if (contentType != null) {
-            headers.put("Content-Type", contentType);
+            headers.put("Content-Type", contentType.getDescription());
         }
     }
 
