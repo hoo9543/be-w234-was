@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.HttpParser;
+import webserver.controller.ControllerFactory;
 import webserver.http.ModelAndView;
 import webserver.http.Request;
 import webserver.http.Response;
@@ -15,22 +16,19 @@ import webserver.controller.Controller;
 import webserver.controller.DefaultController;
 import webserver.controller.UserSaveController;
 
+import static util.HttpParser.getProcessedRequestFromHttpRequest;
+
 
 public class RequestHandler implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
     private Socket connection;
-    private Map<String, Controller> urlMappingMap = new HashMap<>();
-    private HttpParser httpParser;
+
+    private ControllerFactory controllerFactory;
 
     public RequestHandler(Socket connectionSocket) {
         this.connection = connectionSocket;
-        initUrlMappingMap();
-        httpParser = new HttpParser();
-    }
-
-    private void initUrlMappingMap(){
-        urlMappingMap.put("GET /user/create",new UserSaveController());
+        controllerFactory = new ControllerFactory();
     }
 
     public void run() {
@@ -39,8 +37,8 @@ public class RequestHandler implements Runnable {
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
-            Request request = httpParser.getProcessedRequestFromHttpRequest(in);
-            Controller controller = getController(request);
+            Request request = getProcessedRequestFromHttpRequest(in);
+            Controller controller = controllerFactory.getController(request.getHttpMethod(), request.getUrl());
 
             Response response = new Response();
             ModelAndView modelAndView = controller.process(request,response);
@@ -53,14 +51,5 @@ public class RequestHandler implements Runnable {
         } catch (RuntimeException e){
             logger.error(e.getMessage());
         }
-    }
-
-    private Controller getController(Request request){
-        String str = request.getHttpMethod()+" "+request.getUrl();
-        Controller controller = urlMappingMap.get(str);
-        if (controller == null){
-            controller = new DefaultController();
-        }
-        return controller;
     }
 }
