@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
+import static webserver.http.ContentType.getContentTypeFromPath;
 import static webserver.http.StatusCode.OK;
 
 public class Response {
@@ -71,12 +72,10 @@ public class Response {
     }
 
     private void setContentType(String path){
-        if (path.contains("css")){
-            headers.put("Content-Type", "text/css");
-            return;
+        String contentType = getContentTypeFromPath(path);
+        if (contentType != null) {
+            headers.put("Content-Type", contentType);
         }
-
-        headers.put("Content-Type","text/html;charset=utf-8");
     }
 
     private void setContentLength(){
