@@ -1,7 +1,6 @@
-package webserver.http.response;
+package webserver.http.response.responseBody;
 
 import webserver.http.ContentType;
-import webserver.http.response.ResponseBody;
 
 public class DefaultResponseBody implements ResponseBody {
 
