@@ -5,6 +5,7 @@ import webserver.http.Request;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ControllerFactory {
 
@@ -13,6 +14,7 @@ public class ControllerFactory {
     public ControllerFactory(){
         controllerMap.put(new Key(HttpMethod.GET,"/user/create"),new UserSaveController());
         controllerMap.put(new Key(HttpMethod.POST,"/user/create"),new PostUserSaveController());
+        controllerMap.put(new Key(HttpMethod.POST,"/user/login"),new LoginController());
     }
 
     public Controller getController(HttpMethod httpMethod, String path){
@@ -20,7 +22,7 @@ public class ControllerFactory {
         return controller != null ? controller : new DefaultController();
     }
 
-    class Key<K1, K2>
+    private class Key<K1, K2>
     {
         public K1 key1;
         public K2 key2;
@@ -43,11 +45,11 @@ public class ControllerFactory {
             }
 
             Key key = (Key) o;
-            if (key1 != null ? !key1.equals(key.key1) : key.key1 != null) {
+            if (!Objects.equals(key1, key.key1)) {
                 return false;
             }
 
-            if (key2 != null ? !key2.equals(key.key2) : key.key2 != null) {
+            if (!Objects.equals(key2, key.key2)) {
                 return false;
             }
 
