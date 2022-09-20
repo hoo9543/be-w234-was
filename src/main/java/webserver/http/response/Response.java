@@ -17,7 +17,7 @@ public class Response {
     private String httpVersion ="";
     private StatusCode statusCode=OK;
     private Map<String,String> headers=new HashMap<>();
-    private byte[] body;
+    private ResponseBody body;
 
     private static final Logger logger = LoggerFactory.getLogger(Response.class);
     public String getHttpVersion() {
@@ -44,43 +44,27 @@ public class Response {
         this.headers = headers;
     }
 
-    public byte[] getBody() {
+    public ResponseBody getBody() {
         return body;
     }
 
-    public void setBody(byte[] body) {
+    public void setBody(ResponseBody body) {
         this.body = body;
     }
 
 
 
-    public Response(String httpVersion, StatusCode statusCode, Map<String, String> headers, byte[] body) {
+    public Response(String httpVersion, StatusCode statusCode, ResponseBody body) {
         this.httpVersion = httpVersion;
         this.statusCode = statusCode;
-        this.headers = headers;
         this.body = body;
-    }
-
-    public Response(){}
-
-    public void setResponseFromModelAndRequest(ModelAndView model, Request request) throws IOException {
-        setHttpVersion(request.getHttpVersion());
-        setContentType(model.getPath());
-        byte[] body = Files.readAllBytes(new File("./webapp" + model.getPath()).toPath());
-        setBody(body);
-        setContentLength();
-    }
-
-    private void setContentType(String path){
-        ContentType contentType = getContentTypeFromPath(path);
-        if (contentType != null) {
-            headers.put("Content-Type", contentType.getDescription());
+        if (body.getContentLength() != 0){
+            headers.put("Content-Type", body.getContentType().getDescription());
+            headers.put("Content-Length",String.valueOf(body.getContentLength()));
         }
     }
 
-    private void setContentLength(){
-        headers.put("content-Length", String.valueOf(body.length));
-    }
+    public Response(){}
 
     public void sendResponse(DataOutputStream dos) throws IOException {
         try{
@@ -97,7 +81,7 @@ public class Response {
             });
 
             dos.writeBytes("\r\n");
-            dos.write(body, 0, body.length);
+            dos.write(body.getBody(), 0, body.getBody().length);
             dos.flush();
         } catch (IOException e) {
             logger.error(e.getMessage());
