@@ -1,16 +1,15 @@
-package webserver.http;
+package webserver.http.response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import webserver.http.StatusCode;
+import webserver.http.response.responseBody.ResponseBody;
 
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
-import static webserver.http.ContentType.getContentTypeFromPath;
 import static webserver.http.StatusCode.OK;
 
 public class Response {
