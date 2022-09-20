@@ -2,7 +2,9 @@ package webserver.http;
 
 public enum ContentType {
     CSS("css","text/css"),
-    HTML("html","text/html;charset=utf-8");
+    HTML("html","text/html;charset=utf-8"),
+    PLAIN_TEXT(".txt","text/plain");
+
 
     private final String extension;
     private final String description;
@@ -31,6 +33,6 @@ public enum ContentType {
                 return contentType;
             }
         }
-        return null;
+        return ContentType.PLAIN_TEXT;
     }
 }
