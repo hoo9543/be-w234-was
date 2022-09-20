@@ -19,8 +19,8 @@ public class PostUserSaveController implements Controller {
     private UserService userService = new UserService();
     @Override
     public ModelAndView process(Request request, Response response){
-        Map<String,String> userData = parseQueryString(request.getBody());
-        User user = new User(userData.get("userId"),userData.get("password"),userData.get("name"),userData.get("email"));
+
+        User user = getUserFromRequestBody(request.getBody());
 
         userService.signUp(user);
 
@@ -31,5 +31,14 @@ public class PostUserSaveController implements Controller {
         logger.debug("userId: " + user.getUserId());
 
         return modelAndView;
+    }
+
+    private User getUserFromRequestBody(String body){
+        try {
+            Map<String, String> userData = parseQueryString(body);
+            return new User(userData.get("userId"), userData.get("password"), userData.get("name"), userData.get("email"));
+        }catch(RuntimeException e){
+            throw new RuntimeException(e);
+        }
     }
 }
