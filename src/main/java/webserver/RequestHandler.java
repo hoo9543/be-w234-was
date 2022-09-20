@@ -2,19 +2,13 @@ package webserver;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import util.HttpParser;
 import webserver.controller.ControllerFactory;
-import webserver.http.ModelAndView;
 import webserver.http.Request;
-import webserver.http.Response;
+import webserver.http.response.Response;
 import webserver.controller.Controller;
-import webserver.controller.DefaultController;
-import webserver.controller.UserSaveController;
 
 import static util.HttpParser.getProcessedRequestFromHttpRequest;
 
@@ -38,11 +32,9 @@ public class RequestHandler implements Runnable {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
             Request request = getProcessedRequestFromHttpRequest(in);
-            Controller controller = controllerFactory.getController(request.getHttpMethod(), request.getUrl());
+            Controller controller = controllerFactory.getController(request.getHttpMethod(),request.getUrl());
 
-            Response response = new Response();
-            ModelAndView modelAndView = controller.process(request,response);
-            response.setResponseFromModelAndRequest(modelAndView,request);
+            Response response = controller.process(request);
             DataOutputStream dos = new DataOutputStream(out);
             response.sendResponse(dos);
 
