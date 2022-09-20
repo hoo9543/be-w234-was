@@ -1,7 +1,7 @@
-package webserver.http.response;
+package webserver.http.response.responseBody;
 
 import webserver.http.ContentType;
-import webserver.http.response.ResponseBody;
+import webserver.http.response.responseBody.ResponseBody;
 
 import java.io.*;
 
