@@ -11,14 +11,15 @@ import webserver.http.StatusCode;
 
 import java.util.Map;
 
+import static util.HttpRequestUtils.parseQueryString;
+
 public class UserSaveController implements Controller {
     private static final Logger logger = LoggerFactory.getLogger(UserSaveController.class);
-    //private static Database repository = Database.getDatabase();
     private UserService userService = new UserService();
     @Override
     public ModelAndView process(Request request,Response response){
-        Map<String,String> params = request.getParams();
-        User user = new User(params.get("userId"),params.get("password"),params.get("name"),params.get("email"));
+
+        User user = getUserFromRequestFrom(request.getParams());
 
         userService.signUp(user);
 
@@ -29,5 +30,13 @@ public class UserSaveController implements Controller {
         logger.debug("userId: " + user.getUserId());
 
         return modelAndView;
+    }
+
+    private User getUserFromRequestFrom(Map<String,String> params) {
+        try {
+            return new User(params.get("userId"), params.get("password"), params.get("name"), params.get("email"));
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
