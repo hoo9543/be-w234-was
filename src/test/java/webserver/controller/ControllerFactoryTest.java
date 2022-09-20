@@ -1,4 +1,4 @@
-package webserver;
+package webserver.controller;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
