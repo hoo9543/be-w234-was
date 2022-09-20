@@ -1,4 +1,4 @@
-package webserver.http.response;
+package webserver.http.response.responseBody;
 
 import webserver.http.ContentType;
 
