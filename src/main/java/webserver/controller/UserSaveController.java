@@ -4,39 +4,31 @@ import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.UserService;
-import webserver.http.ModelAndView;
-import webserver.http.Request;
-import webserver.http.Response;
-import webserver.http.StatusCode;
+import webserver.http.*;
+import webserver.http.response.responseBody.DefaultResponseBody;
+import webserver.http.response.Response;
 
 import java.util.Map;
 
-import static util.HttpRequestUtils.parseQueryString;
-
 public class UserSaveController implements Controller {
     private static final Logger logger = LoggerFactory.getLogger(UserSaveController.class);
-    private UserService userService = new UserService();
+    private UserService userService = UserService.getInstance();
     @Override
-    public ModelAndView process(Request request,Response response){
+    public Response process(Request request){
 
         User user = getUserFromRequestFrom(request.getParams());
+        Response response = new Response(request.getHttpVersion(),StatusCode.FOUND,new DefaultResponseBody());
 
         userService.signUp(user);
+        response.getHeaders().put("Location","/index.html");
 
-        ModelAndView modelAndView = new ModelAndView("/index.html");
-        modelAndView.getParams().put("User",user);
-        response.setStatusCode(StatusCode.FOUND);
-
-        logger.debug("userId: " + user.getUserId());
-
-        return modelAndView;
+        return response;
     }
 
     private User getUserFromRequestFrom(Map<String,String> params) {
-        try {
-            return new User(params.get("userId"), params.get("password"), params.get("name"), params.get("email"));
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+        if (params.get("userId") == null || params.get("password") == null || params.get("name") == null || params.get("email")== null){
+            throw new RuntimeException("Invalid user data");
         }
+        return new User(params.get("userId"), params.get("password"), params.get("name"), params.get("email"));
     }
 }
