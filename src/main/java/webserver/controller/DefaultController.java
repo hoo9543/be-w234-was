@@ -3,6 +3,7 @@ package webserver.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.http.*;
+import webserver.http.request.Request;
 import webserver.http.response.responseBody.FileResponseBody;
 import webserver.http.response.Response;
 import webserver.http.response.responseBody.ResponseBody;

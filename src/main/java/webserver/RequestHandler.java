@@ -6,7 +6,7 @@ import java.net.Socket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.controller.ControllerFactory;
-import webserver.http.Request;
+import webserver.http.request.Request;
 import webserver.http.response.Response;
 import webserver.controller.Controller;
 

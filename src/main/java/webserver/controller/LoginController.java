@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.UserService;
 import webserver.http.*;
+import webserver.http.request.Request;
 import webserver.http.response.responseBody.DefaultResponseBody;
 import webserver.http.response.Response;
 

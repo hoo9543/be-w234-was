@@ -1,7 +1,6 @@
 package webserver.controller;
 
 import webserver.http.HttpMethod;
-import webserver.http.Request;
 
 import java.util.HashMap;
 import java.util.Map;
