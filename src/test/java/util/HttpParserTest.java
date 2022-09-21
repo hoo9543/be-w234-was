@@ -23,7 +23,7 @@ public class HttpParserTest {
         String requestLine = ("GET /user/create?userId=user&password=pw&name=name&email=email Http/1.1"+"\r\n"+
                 "Accept: */*"+"\r\n"+"\r\n");
         InputStream in = new StringBufferInputStream(requestLine);
-        Request request = HttpParser.getProcessedRequestFromHttpRequest(in);
+        Request request = HttpParser.getProcessedRequestFrom(in);
 
         Assertions.assertThat(request.getHttpMethod()).isEqualTo(HttpMethod.GET);
         Assertions.assertThat(request.getUrl()).isEqualTo("/user/create");
@@ -39,7 +39,7 @@ public class HttpParserTest {
         String requestLine = ("POST /user/create Http/1.1"+"\r\n"+
                 "Content-Length: 11"+"\r\n"+"\r\n"+ "userId=user");
         InputStream in = new StringBufferInputStream(requestLine);
-        Request request = HttpParser.getProcessedRequestFromHttpRequest(in);
+        Request request = HttpParser.getProcessedRequestFrom(in);
 
         Assertions.assertThat(request.getHttpMethod()).isEqualTo(HttpMethod.POST);
         Assertions.assertThat(request.getUrl()).isEqualTo("/user/create");

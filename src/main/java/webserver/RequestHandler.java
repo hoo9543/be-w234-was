@@ -10,7 +10,7 @@ import webserver.http.request.Request;
 import webserver.http.response.Response;
 import webserver.controller.Controller;
 
-import static util.HttpParser.getProcessedRequestFromHttpRequest;
+import static util.HttpParser.getProcessedRequestFrom;
 
 
 public class RequestHandler implements Runnable {
@@ -31,7 +31,7 @@ public class RequestHandler implements Runnable {
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
-            Request request = getProcessedRequestFromHttpRequest(in);
+            Request request = getProcessedRequestFrom(in);
             Controller controller = controllerMapper.getController(request.getHttpMethod(),request.getUrl());
 
             Response response = controller.process(request);

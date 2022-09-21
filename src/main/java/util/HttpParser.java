@@ -19,7 +19,7 @@ public class HttpParser {
     private static final Logger logger = LoggerFactory.getLogger(HttpParser.class);
 
 
-    public static Request getProcessedRequestFromHttpRequest(InputStream in) throws IOException {
+    public static Request getProcessedRequestFrom(InputStream in) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
         String line = br.readLine();
         logger.debug("request line : {}", line);
