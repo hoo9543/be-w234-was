@@ -11,7 +11,7 @@ public class DefaultResponseBody implements ResponseBody {
 
     @Override
     public ContentType getContentType() {
-        return null;
+        return ContentType.PLAIN_TEXT;
     }
 
     @Override
