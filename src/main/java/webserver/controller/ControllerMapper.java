@@ -11,13 +11,13 @@ public class ControllerMapper {
     private Map<Key, Controller> controllerMap= new HashMap<>();
 
     public ControllerMapper(){
-        controllerMap.put(new Key(HttpMethod.GET,"/user/create"),new UserSaveController());
-        controllerMap.put(new Key(HttpMethod.POST,"/user/create"),new PostUserSaveController());
-        controllerMap.put(new Key(HttpMethod.POST,"/user/login"),new LoginController());
+        controllerMap.put(new Key(HttpMethod.GET, "/user/create"),new UserSaveController());
+        controllerMap.put(new Key(HttpMethod.POST, "/user/create"),new PostUserSaveController());
+        controllerMap.put(new Key(HttpMethod.POST, "/user/login"),new LoginController());
     }
 
     public Controller getController(HttpMethod httpMethod, String path){
-        Controller controller = controllerMap.get(new Key(httpMethod,path));
+        Controller controller = controllerMap.get(new Key<>(httpMethod, path));
         return controller != null ? controller : new DefaultController();
     }
 
@@ -51,7 +51,6 @@ public class ControllerMapper {
             if (!Objects.equals(key2, key.key2)) {
                 return false;
             }
-
             return true;
         }
 
