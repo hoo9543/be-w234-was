@@ -3,7 +3,8 @@ package webserver.http;
 public enum StatusCode {
     OK(200,"OK"),
     FOUND(302, "Found"),
-    NOT_FOUND(404, "Not Found");
+    NOT_FOUND(404, "Not Found"),
+    BAD_REQUEST(400,"Bad Request");
 
     private final int value;
     private final String description;
