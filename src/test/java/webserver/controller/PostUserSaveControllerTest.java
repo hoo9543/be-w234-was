@@ -32,13 +32,10 @@ public class PostUserSaveControllerTest {
         Controller controller = new PostUserSaveController();
 
         Map<String,String> params = new HashMap<>();
-        params.put("userId","user");
-        params.put("password","pw");
-        params.put("name","name");
-        params.put("email","email");
+        String body = "userId=user1&password=pw&name=name&email=email";
 
         Map<String,String> headers = new HashMap<>();
-        Request request = new Request(HttpMethod.POST,"/user/create",params,headers,"","Http/1.1");
+        Request request = new Request(HttpMethod.POST,"/user/create",params,headers,body,"Http/1.1");
 
         Response response = controller.process(request);
 
@@ -47,26 +44,23 @@ public class PostUserSaveControllerTest {
     }
 
     @Test
-    @DisplayName("user 생성 실패 시 DuplicatedUserException 발생")
+    @DisplayName("user 생성 실패 시 400 status code와 error message 전달")
     void userSaveFailureTest() throws IOException {
 
         Controller controller = new PostUserSaveController();
 
         Map<String,String> params = new HashMap<>();
-        params.put("userId","user");
-        params.put("password","pw");
-        params.put("name","name");
-        params.put("email","email");
+        String body = "userId=user1&password=pw&name=name&email=email";
 
         Map<String,String> headers = new HashMap<>();
-        Request request = new Request(HttpMethod.POST,"/user/create",params,headers,"","Http/1.1");
+        Request request = new Request(HttpMethod.POST,"/user/create",params,headers,body,"Http/1.1");
 
         User user = new User("user","pw","name","email");
         Database.addUser(user);
 
+        Response response = controller.process(request);
 
-        assertThatThrownBy(()-> controller.process(request))
-                .isInstanceOf(DuplicatedUserIdException.class)
-                .hasMessage("This userId already exists");
+        Assertions.assertThat(new String(response.getBody())).isEqualTo("This userId already exists");
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(StatusCode.BAD_REQUEST);
     }
 }

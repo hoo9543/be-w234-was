@@ -47,7 +47,7 @@ public class UserSaveControllerTest {
     }
 
     @Test
-    @DisplayName("user 생성 실패 시 DuplicatedUserException 발생")
+    @DisplayName("user 생성 실패 시 400 status code와 error message 전달")
     void userSaveFailureTest() throws IOException {
 
         Controller controller = new UserSaveController();
@@ -64,10 +64,11 @@ public class UserSaveControllerTest {
         User user = new User("user","pw","name","email");
         Database.addUser(user);
 
+        Response response = controller.process(request);
 
-        assertThatThrownBy(()-> controller.process(request))
-                .isInstanceOf(DuplicatedUserIdException.class)
-                .hasMessage("This userId already exists");
+        Assertions.assertThat(new String(response.getBody())).isEqualTo("This userId already exists");
+        Assertions.assertThat(response.getStatusCode()).isEqualTo(StatusCode.BAD_REQUEST);
+
     }
 
 }
