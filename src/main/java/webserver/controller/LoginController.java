@@ -4,6 +4,7 @@ import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.UserService;
+import util.UserParser;
 import webserver.http.*;
 import webserver.http.request.Request;
 import webserver.http.response.responseBody.DefaultResponseBody;
@@ -23,7 +24,7 @@ public class LoginController implements Controller{
     @Override
     public Response process(Request request) throws IOException {
 
-        User user = getUserFromRequestBody(request.getBody());
+        User user = UserParser.getUserFromRequestBody(request.getBody());
         Response response = new Response(request.getHttpVersion(),StatusCode.FOUND,new DefaultResponseBody());
 
         try {
@@ -37,13 +38,5 @@ public class LoginController implements Controller{
         }
 
         return response;
-    }
-
-    private User getUserFromRequestBody(String body){
-            Map<String, String> userData = parseQueryString(body);
-            if (userData.get("userId") == null || userData.get("password") == null || userData.get("name") == null || userData.get("email")== null){
-                throw new RuntimeException("Invalid user data");
-            }
-            return new User(userData.get("userId"), userData.get("password"), userData.get("name"), userData.get("email"));
     }
 }
