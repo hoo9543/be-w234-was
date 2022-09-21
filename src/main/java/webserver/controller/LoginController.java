@@ -1,5 +1,6 @@
 package webserver.controller;
 
+import model.LoginData;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +25,11 @@ public class LoginController implements Controller{
     @Override
     public Response process(Request request) throws IOException {
 
-        User user = UserParser.getUserFromRequestBody(request.getBody());
+        LoginData loginData = UserParser.getLoginDataFrom(request.getBody());
         Response response = new Response(request.getHttpVersion(),StatusCode.FOUND,new DefaultResponseBody());
 
         try {
-            userService.login(user);
+            userService.login(loginData);
             response.getHeaders().put("Location","/index.html");
             response.getHeaders().put("Set-Cookie","logined=true; Path=/");
         }catch(RuntimeException e){
