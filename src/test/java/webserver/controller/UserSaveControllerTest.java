@@ -70,19 +70,4 @@ public class UserSaveControllerTest {
                 .hasMessage("This userId already exists");
     }
 
-    @Test
-    @DisplayName("user data가 invalid한 경우 ")
-    void InvalidUserDataTest(){
-        Controller controller = new LoginController();
-        Database.addUser(new User("user","pw","name","email"));
-        Map<String,String> params = new HashMap<>();
-        Map<String,String> headers = new HashMap<>();
-        String body = "userI=user1&password=pw&name=name&email=email";
-        Request request = new Request(HttpMethod.GET,"/user/login",params,headers,body,"Http/1.1");
-
-        assertThatThrownBy(()-> controller.process(request))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessage("Invalid user data");
-
-    }
 }
