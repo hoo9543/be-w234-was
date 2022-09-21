@@ -57,13 +57,12 @@ public class Response {
         this.httpVersion = httpVersion;
         this.statusCode = statusCode;
         this.body = body;
+        headers.put("Content-Type", body.getContentType().getDescription());
         if (body.getContentLength() != 0){
-            headers.put("Content-Type", body.getContentType().getDescription());
             headers.put("Content-Length",String.valueOf(body.getContentLength()));
         }
     }
 
-    public Response(){}
 
     public void sendResponse(DataOutputStream dos) throws IOException {
         try{
