@@ -1,5 +1,6 @@
 package util;
 
+import model.LoginData;
 import model.User;
 
 import java.util.Map;
@@ -19,4 +20,11 @@ public class UserParser {
         return getUserFrom(userData);
     }
 
+    public static LoginData getLoginDataFrom(String body) {
+        Map<String, String> loginData = parseQueryString(body);
+        if (loginData.get("userId") == null || loginData.get("password") == null){
+            throw new RuntimeException("Invalid user data");
+        }
+        return new LoginData(loginData.get("userId"), loginData.get("password"));
+    }
 }
