@@ -5,7 +5,7 @@ import java.net.Socket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import webserver.controller.ControllerFactory;
+import webserver.controller.ControllerMapper;
 import webserver.http.request.Request;
 import webserver.http.response.Response;
 import webserver.controller.Controller;
@@ -18,11 +18,11 @@ public class RequestHandler implements Runnable {
 
     private Socket connection;
 
-    private ControllerFactory controllerFactory;
+    private ControllerMapper controllerMapper;
 
     public RequestHandler(Socket connectionSocket) {
         this.connection = connectionSocket;
-        controllerFactory = new ControllerFactory();
+        controllerMapper = new ControllerMapper();
     }
 
     public void run() {
@@ -32,7 +32,7 @@ public class RequestHandler implements Runnable {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
             Request request = getProcessedRequestFromHttpRequest(in);
-            Controller controller = controllerFactory.getController(request.getHttpMethod(),request.getUrl());
+            Controller controller = controllerMapper.getController(request.getHttpMethod(),request.getUrl());
 
             Response response = controller.process(request);
             DataOutputStream dos = new DataOutputStream(out);

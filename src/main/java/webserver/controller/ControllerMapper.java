@@ -6,11 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class ControllerFactory {
+public class ControllerMapper {
 
     private Map<Key, Controller> controllerMap= new HashMap<>();
 
-    public ControllerFactory(){
+    public ControllerMapper(){
         controllerMap.put(new Key(HttpMethod.GET,"/user/create"),new UserSaveController());
         controllerMap.put(new Key(HttpMethod.POST,"/user/create"),new PostUserSaveController());
         controllerMap.put(new Key(HttpMethod.POST,"/user/login"),new LoginController());

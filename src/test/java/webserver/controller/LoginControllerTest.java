@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import webserver.http.HttpMethod;
-import webserver.http.Request;
+import webserver.http.request.Request;
 import webserver.http.StatusCode;
 import webserver.http.response.Response;
 
@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static util.HttpParser.stringDivideAndCheckNum;
 
 public class LoginControllerTest {
 
