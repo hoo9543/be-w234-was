@@ -43,8 +43,8 @@ public class Response {
         this.headers = headers;
     }
 
-    public ResponseBody getBody() {
-        return body;
+    public byte[] getBody() {
+        return body.getBody();
     }
 
     public void setBody(ResponseBody body) {
@@ -80,7 +80,7 @@ public class Response {
             });
 
             dos.writeBytes("\r\n");
-            dos.write(body.getBody(), 0, body.getBody().length);
+            dos.write(body.getBody(), 0, body.getContentLength());
             dos.flush();
         } catch (IOException e) {
             logger.error(e.getMessage());
