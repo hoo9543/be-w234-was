@@ -1,26 +1,24 @@
 package webserver.controller;
 
 import model.LoginData;
-import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.UserService;
-import util.UserParser;
+import webserver.http.util.UserParser;
 import webserver.http.*;
 import webserver.http.request.Request;
 import webserver.http.response.responseBody.DefaultResponseBody;
 import webserver.http.response.Response;
 
 import java.io.IOException;
-import java.util.Map;
-
-import static util.HttpRequestUtils.parseQueryString;
 
 public class LoginController implements Controller{
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultController.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-    private UserService userService = UserService.getInstance();
+    private UserService userService;
+
+    public LoginController(UserService userService){ this.userService = userService;}
 
     @Override
     public Response process(Request request) throws IOException {
@@ -28,15 +26,9 @@ public class LoginController implements Controller{
         LoginData loginData = UserParser.getLoginDataFrom(request.getBody());
         Response response = new Response(request.getHttpVersion(),StatusCode.FOUND,new DefaultResponseBody());
 
-        try {
-            userService.login(loginData);
-            response.getHeaders().put("Location","/index.html");
-            response.getHeaders().put("Set-Cookie","logined=true; Path=/");
-        }catch(RuntimeException e){
-            logger.debug(e.getMessage());
-            response.getHeaders().put("Location","/user/login_failed.html");
-            response.getHeaders().put("Set-Cookie","logined=false");
-        }
+        userService.login(loginData);
+        response.setLocation(Constants.INDEX_PATH);
+        response.setCookie(Constants.LOGIN_COOKIE);
 
         return response;
     }
