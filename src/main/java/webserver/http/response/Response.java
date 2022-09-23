@@ -2,11 +2,13 @@ package webserver.http.response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import webserver.http.Constants;
 import webserver.http.StatusCode;
 import webserver.http.response.responseBody.ResponseBody;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +19,8 @@ public class Response {
     private StatusCode statusCode=OK;
     private Map<String,String> headers=new HashMap<>();
     private ResponseBody body;
+
+    private Map<String,String> cookies=new HashMap<>();
 
     private static final Logger logger = LoggerFactory.getLogger(Response.class);
     public String getHttpVersion() {
@@ -64,7 +68,8 @@ public class Response {
     }
 
 
-    public void sendResponse(DataOutputStream dos) throws IOException {
+    public void sendResponse(OutputStream out) throws IOException {
+        DataOutputStream dos = new DataOutputStream(out);
         try{
             dos.writeBytes(httpVersion +" "+
                     statusCode.getValue()+" "+
@@ -86,5 +91,12 @@ public class Response {
         }
     }
 
+    public void setLocation(String location){
+        headers.put(Constants.SET_LOCATION,location);
+    }
+
+    public void setCookie(String cookie){
+        headers.put(Constants.SET_COOKIE,cookie);
+    }
 
 }
