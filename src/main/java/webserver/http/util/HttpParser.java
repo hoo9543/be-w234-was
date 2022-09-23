@@ -29,6 +29,7 @@ public class HttpParser {
         if (headers.get("Content-Length") != null) {
             body = getBodyFromInputStream(br, Integer.parseInt(headers.get("Content-Length")));
         }
+
         return new Request(requestLineData.getHttpMethod(), requestLineData.getUrl(), requestLineData.getParams(), headers, body, requestLineData.getProtocol());
     }
 

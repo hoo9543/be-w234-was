@@ -5,6 +5,7 @@ import model.User;
 
 import java.util.Map;
 
+import static util.HttpRequestUtils.getKeyValue;
 import static util.HttpRequestUtils.parseQueryString;
 
 public class UserParser {
@@ -26,5 +27,11 @@ public class UserParser {
             throw new RuntimeException("Invalid user data");
         }
         return new LoginData(loginData.get("userId"), loginData.get("password"));
+    }
+
+    public static User getUserFromUserString(String userString){
+        String str = userString.replaceAll("[\\[|\\]\\,]","");
+        Map<String,String> params = HttpRequestUtils.parseValues(str," ");
+        return getUserFrom(params);
     }
 }
