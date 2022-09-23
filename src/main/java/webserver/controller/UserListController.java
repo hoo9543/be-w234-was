@@ -1,7 +1,5 @@
 package webserver.controller;
 
-import db.Database;
-import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.UserService;
@@ -11,9 +9,8 @@ import webserver.http.response.Response;
 import webserver.http.response.responseBody.TextResponseBody;
 
 import java.io.IOException;
-import java.util.Collection;
 
-import static webserver.http.util.UserParser.getUserString;
+import static webserver.http.util.UserParser.getUserStringFrom;
 
 public class UserListController implements Controller{
 
@@ -25,7 +22,7 @@ public class UserListController implements Controller{
     @Override
     public Response process(Request request) throws IOException {
 
-        return new Response(request.getHttpVersion(), StatusCode.OK, new TextResponseBody(getUserString(userService.findAll())));
+        return new Response(request.getHttpVersion(), StatusCode.OK, new TextResponseBody(getUserStringFrom(userService.findAll())));
     }
 
 
