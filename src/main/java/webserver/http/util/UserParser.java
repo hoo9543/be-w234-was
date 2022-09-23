@@ -1,12 +1,10 @@
-package util;
+package webserver.http.util;
 
 import model.LoginData;
 import model.User;
 
+import java.util.Collection;
 import java.util.Map;
-
-import static util.HttpRequestUtils.getKeyValue;
-import static util.HttpRequestUtils.parseQueryString;
 
 public class UserParser {
     public static User getUserFrom(Map<String,String> params) {
@@ -17,12 +15,12 @@ public class UserParser {
     }
 
     public static User getUserFromRequestBody(String body){
-        Map<String, String> userData = parseQueryString(body);
+        Map<String, String> userData = HttpRequestUtils.parseQueryString(body);
         return getUserFrom(userData);
     }
 
     public static LoginData getLoginDataFrom(String body) {
-        Map<String, String> loginData = parseQueryString(body);
+        Map<String, String> loginData = HttpRequestUtils.parseQueryString(body);
         if (loginData.get("userId") == null || loginData.get("password") == null){
             throw new RuntimeException("Invalid user data");
         }
@@ -33,5 +31,11 @@ public class UserParser {
         String str = userString.replaceAll("[\\[|\\]\\,]","");
         Map<String,String> params = HttpRequestUtils.parseValues(str," ");
         return getUserFrom(params);
+    }
+
+    public static String getUserStringFrom(Collection<User> users) {
+        StringBuilder stringBuilder = new StringBuilder();
+        users.forEach(user -> stringBuilder.append(user.toString()).append("\r\n"));
+        return stringBuilder.toString();
     }
 }
