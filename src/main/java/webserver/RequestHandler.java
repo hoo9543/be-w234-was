@@ -5,12 +5,11 @@ import java.net.Socket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import webserver.controller.ControllerMapper;
+import webserver.controller.FrontController;
 import webserver.http.request.Request;
 import webserver.http.response.Response;
-import webserver.controller.Controller;
 
-import static util.HttpParser.getProcessedRequestFrom;
+import static webserver.http.util.HttpParser.getProcessedRequestFrom;
 
 
 public class RequestHandler implements Runnable {
@@ -18,11 +17,11 @@ public class RequestHandler implements Runnable {
 
     private Socket connection;
 
-    private ControllerMapper controllerMapper;
+    private FrontController frontController;
 
-    public RequestHandler(Socket connectionSocket) {
+    public RequestHandler(Socket connectionSocket) throws IOException {
         this.connection = connectionSocket;
-        controllerMapper = new ControllerMapper();
+        this.frontController = FrontController.getInstance();
     }
 
     public void run() {
@@ -32,15 +31,9 @@ public class RequestHandler implements Runnable {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             // TODO 사용자 요청에 대한 처리는 이 곳에 구현하면 된다.
             Request request = getProcessedRequestFrom(in);
-            Controller controller = controllerMapper.getController(request.getHttpMethod(),request.getUrl());
-
-            Response response = controller.process(request);
-            DataOutputStream dos = new DataOutputStream(out);
-            response.sendResponse(dos);
-
+            Response response = frontController.process(request);
+            response.sendResponse(out);
         } catch (IOException e) {
-            logger.error(e.getMessage());
-        } catch (RuntimeException e){
             logger.error(e.getMessage());
         }
     }
