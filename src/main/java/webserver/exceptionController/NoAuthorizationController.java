@@ -9,7 +9,7 @@ import webserver.http.response.responseBody.DefaultResponseBody;
 
 import java.io.IOException;
 
-public class NoAuthorizationResponseController implements Controller {
+public class NoAuthorizationController implements Controller {
 
     @Override
     public Response process(Request request) throws IOException {
