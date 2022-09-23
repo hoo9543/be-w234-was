@@ -8,16 +8,14 @@ import model.LoginData;
 import model.User;
 
 import java.io.IOException;
+import java.util.Collection;
 
 import static db.Database.addUser;
 import static db.Database.findUserById;
 
-public class UserService {
-    private UserService(){}
-    private static UserService instance = new UserService();
-    public static UserService getInstance(){ return instance;}
+public class UserServiceImpl implements UserService{
 
-
+    @Override
     public void signUp(User user) throws IOException {
         if (findUserById(user.getUserId()) != null){
             throw new DuplicatedUserIdException("This userId already exists");
@@ -25,6 +23,7 @@ public class UserService {
         addUser(user);
     }
 
+    @Override
     public void login(LoginData loginUser){
         User user = findUserById(loginUser.getUserId());
         if (user == null){
@@ -33,6 +32,12 @@ public class UserService {
         if (!user.getPassword().equals(loginUser.getPassword())){
             throw new BadCredentialsException("Invalid password");
         }
+
+    }
+
+    @Override
+    public Collection<User> findAll(){
+        return Database.findAll();
 
     }
 }
