@@ -1,5 +1,7 @@
 package webserver.controller;
 
+import service.UserService;
+import service.UserServiceImpl;
 import webserver.http.HttpMethod;
 
 import java.util.HashMap;
@@ -10,10 +12,13 @@ public class ControllerMapper {
 
     private Map<Key, Controller> controllerMap= new HashMap<>();
 
-    public ControllerMapper(){
-        controllerMap.put(new Key(HttpMethod.GET, "/user/create"),new UserSaveController());
-        controllerMap.put(new Key(HttpMethod.POST, "/user/create"),new PostUserSaveController());
-        controllerMap.put(new Key(HttpMethod.POST, "/user/login"),new LoginController());
+    public ControllerMapper() {
+        UserService userService = new UserServiceImpl();
+
+        controllerMap.put(new Key(HttpMethod.POST, "/user/create"),new PostUserSaveController(userService));
+        controllerMap.put(new Key(HttpMethod.POST, "/user/login"),new LoginController(userService));
+        controllerMap.put(new Key(HttpMethod.GET, "/user/list"),new UserListController(userService));
+
     }
 
     public Controller getController(HttpMethod httpMethod, String path){
