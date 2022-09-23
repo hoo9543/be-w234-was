@@ -8,7 +8,7 @@ import webserver.http.response.responseBody.TextResponseBody;
 
 import java.io.IOException;
 
-public class DuplicatedUserResponseController implements Controller {
+public class DuplicatedUserController implements Controller {
 
     @Override
     public Response process(Request request) throws IOException {
