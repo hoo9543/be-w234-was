@@ -1,4 +1,4 @@
-package util;
+package webserver.http.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-import static util.IOUtils.readData;
+import static webserver.http.util.IOUtils.readData;
 
 
 public class HttpParser {
