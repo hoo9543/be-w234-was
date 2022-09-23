@@ -5,14 +5,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import webserver.http.HttpMethod;
 import webserver.http.request.Request;
+import webserver.http.util.HttpParser;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringBufferInputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static util.HttpParser.stringDivideAndCheckNum;
+import static webserver.http.util.HttpParser.stringDivideAndCheckNum;
 
 
 public class HttpParserTest {
@@ -22,7 +23,8 @@ public class HttpParserTest {
 
         String requestLine = ("GET /user/create?userId=user&password=pw&name=name&email=email Http/1.1"+"\r\n"+
                 "Accept: */*"+"\r\n"+"\r\n");
-        InputStream in = new StringBufferInputStream(requestLine);
+        InputStream in = new ByteArrayInputStream(requestLine.getBytes()) {
+        };
         Request request = HttpParser.getProcessedRequestFrom(in);
 
         Assertions.assertThat(request.getHttpMethod()).isEqualTo(HttpMethod.GET);
@@ -38,7 +40,7 @@ public class HttpParserTest {
 
         String requestLine = ("POST /user/create Http/1.1"+"\r\n"+
                 "Content-Length: 11"+"\r\n"+"\r\n"+ "userId=user");
-        InputStream in = new StringBufferInputStream(requestLine);
+        InputStream in = new ByteArrayInputStream(requestLine.getBytes());
         Request request = HttpParser.getProcessedRequestFrom(in);
 
         Assertions.assertThat(request.getHttpMethod()).isEqualTo(HttpMethod.POST);

@@ -2,7 +2,7 @@ package webserver.http.response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import webserver.http.Constants;
+import webserver.http.StringConstants;
 import webserver.http.StatusCode;
 import webserver.http.response.responseBody.ResponseBody;
 
@@ -92,11 +92,11 @@ public class Response {
     }
 
     public void setLocation(String location){
-        headers.put(Constants.SET_LOCATION,location);
+        headers.put(StringConstants.SET_LOCATION,location);
     }
 
     public void setCookie(String cookie){
-        headers.put(Constants.SET_COOKIE,cookie);
+        headers.put(StringConstants.SET_COOKIE,cookie);
     }
 
 }

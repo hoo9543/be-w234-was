@@ -12,12 +12,10 @@ public class ControllerMapperTest {
     void ControllerTest(){
         ControllerMapper controllerMapper = new ControllerMapper();
 
-        Controller userSaveController = controllerMapper.getController(HttpMethod.GET,"/user/create");
         Controller postUserSaveController = controllerMapper.getController(HttpMethod.POST,"/user/create");
         Controller loginController = controllerMapper.getController(HttpMethod.POST,"/user/login");
         Controller defaultController = controllerMapper.getController(HttpMethod.GET,"/user/filePath");
 
-        Assertions.assertThat(userSaveController.getClass()).isEqualTo(UserSaveController.class);
         Assertions.assertThat(postUserSaveController.getClass()).isEqualTo(PostUserSaveController.class);
         Assertions.assertThat(loginController.getClass()).isEqualTo(LoginController.class);
         Assertions.assertThat(defaultController.getClass()).isEqualTo(DefaultController.class);

@@ -1,7 +1,7 @@
 package webserver.exceptionController;
 
 import webserver.controller.Controller;
-import webserver.http.Constants;
+import webserver.http.StringConstants;
 import webserver.http.StatusCode;
 import webserver.http.request.Request;
 import webserver.http.response.Response;
@@ -14,8 +14,8 @@ public class LoginFailureController implements Controller {
     @Override
     public Response process(Request request) throws IOException {
         Response response = new Response(request.getHttpVersion(), StatusCode.FOUND,new DefaultResponseBody());
-        response.setLocation(Constants.LOGIN_FAILURE_PATH);
-        response.setCookie(Constants.LOGIN_FAILURE_COOKIE);
+        response.setLocation(StringConstants.LOGIN_FAILURE_PATH);
+        response.setCookie(StringConstants.LOGIN_FAILURE_COOKIE);
         return response;
     }
 }

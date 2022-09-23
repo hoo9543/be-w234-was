@@ -25,7 +25,7 @@ public class PostUserSaveController implements Controller {
 
         userService.signUp(user);
         Response response = new Response(request.getHttpVersion(), StatusCode.FOUND, new DefaultResponseBody());
-        response.setLocation(Constants.INDEX_PATH);
+        response.setLocation(StringConstants.INDEX_PATH);
 
         return response;
     }

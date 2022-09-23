@@ -1,2 +1,4 @@
-package webserver.http;public class AuthorizationManager {
+package webserver.http;
+
+public class AuthorizationManager {
 }

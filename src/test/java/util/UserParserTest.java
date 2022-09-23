@@ -1,14 +1,10 @@
 package util;
 
-import db.Database;
 import model.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import webserver.controller.Controller;
-import webserver.controller.LoginController;
-import webserver.http.HttpMethod;
-import webserver.http.request.Request;
+import webserver.http.util.UserParser;
 
 import java.util.HashMap;
 import java.util.Map;
