@@ -13,6 +13,8 @@ import webserver.http.response.responseBody.TextResponseBody;
 import java.io.IOException;
 import java.util.Collection;
 
+import static webserver.http.util.UserParser.getUserString;
+
 public class UserListController implements Controller{
 
     private static final Logger logger = LoggerFactory.getLogger(UserListController.class);
@@ -26,10 +28,6 @@ public class UserListController implements Controller{
         return new Response(request.getHttpVersion(), StatusCode.OK, new TextResponseBody(getUserString(userService.findAll())));
     }
 
-    private String getUserString(Collection<User> users) {
-        StringBuilder stringBuilder = new StringBuilder();
-        users.forEach(user -> stringBuilder.append(user.toString()).append("\r\n"));
-        return stringBuilder.toString();
-    }
+
 
 }
