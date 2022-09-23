@@ -9,7 +9,7 @@ import webserver.http.response.responseBody.DefaultResponseBody;
 
 import java.io.IOException;
 
-public class LoginFailureResponseController implements Controller {
+public class LoginFailureController implements Controller {
 
     @Override
     public Response process(Request request) throws IOException {
