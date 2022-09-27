@@ -4,14 +4,19 @@ import webserver.http.Constants;
 import webserver.http.StatusCode;
 import webserver.http.response.Response;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class NoAuthorizationExceptionResponseFactory implements ExceptionResponseFactory {
 
     @Override
-    public void setHeaders(Response response) {
-        response.setLocation(Constants.LOGIN_PATH);
+    public Map<String,String> getHeaders() {
+        Map<String,String> headers = new HashMap<>();
+        headers.put(Constants.SET_LOCATION,Constants.LOGIN_PATH);
+        return headers;
     }
     @Override
-    public void setStatusCode(Response response) {
-        response.setStatusCode(StatusCode.FOUND);
+    public StatusCode getStatusCode() {
+        return StatusCode.FOUND;
     }
 }
