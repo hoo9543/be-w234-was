@@ -14,6 +14,8 @@ import webserver.http.response.responseBody.DefaultResponseBody;
 import webserver.http.util.UserParser;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import static webserver.http.util.UserParser.getBoardFromString;
 
@@ -27,15 +29,13 @@ public class BoardSaveController implements Controller{
     @Override
     public Response process(Request request) throws IOException {
 
-        Response response = new Response(request.getHttpVersion(), StatusCode.FOUND,new DefaultResponseBody());
-
-        logger.debug("request: " +request.getBody());
-
         Board board = getBoardFromString(request.getBody());
         boardService.save(board);
-        response.setLocation(Constants.INDEX_PATH);
-        response.setCookie(Constants.LOGIN_COOKIE);
 
-        return response;
+        Map<String,String> headers = new HashMap<>();
+        headers.put(Constants.SET_LOCATION,Constants.INDEX_PATH);
+        headers.put(Constants.SET_COOKIE,Constants.LOGIN_COOKIE);
+
+        return new Response(request.getHttpVersion(), StatusCode.FOUND,headers,new DefaultResponseBody());
     }
 }
