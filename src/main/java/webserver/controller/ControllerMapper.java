@@ -1,5 +1,6 @@
 package webserver.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import service.UserService;
 import service.UserServiceImpl;
 import webserver.http.HttpMethod;
@@ -12,19 +13,15 @@ public class ControllerMapper {
 
     private Map<Key, Controller> controllerMap= new HashMap<>();
 
-    public ControllerMapper() {
-        UserService userService = new UserServiceImpl();
-
-        controllerMap.put(new Key(HttpMethod.POST, "/user/create"),new PostUserSaveController(userService));
-        controllerMap.put(new Key(HttpMethod.POST, "/user/login"),new LoginController(userService));
-        controllerMap.put(new Key(HttpMethod.GET, "/user/list"),new UserListController(userService));
-
-    }
-
     public Controller getController(HttpMethod httpMethod, String path){
         Controller controller = controllerMap.get(new Key<>(httpMethod, path));
         return controller != null ? controller : new DefaultController();
     }
+
+    public void addController(HttpMethod httpMethod, String path, Controller controller){
+        controllerMap.put(new Key(httpMethod, path),controller);
+    }
+
 
     private class Key<K1, K2>
     {
