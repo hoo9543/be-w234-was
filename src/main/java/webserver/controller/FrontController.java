@@ -4,7 +4,6 @@ import exception.NoAuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import webserver.exceptionResponseFactory.ExceptionHandler;
-import webserver.http.Constants;
 import webserver.http.request.Request;
 import webserver.http.response.Response;
 
@@ -33,7 +32,6 @@ public class FrontController implements Controller{
             logger.error(e.getMessage());
             return exceptionHandler.createResponse(request.getHttpVersion(),e);
         }
-
     }
 
     private void checkAuthorization(Request request){

@@ -1,7 +1,6 @@
 package webserver.controller;
 
 import db.Database;
-import model.User;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +28,7 @@ public class LoginControllerTest {
     @DisplayName("login 성공 시 redirect 주소와 cookie, status code가 잘 설정되었는지 확인 ")
     void loginSuccessTest() throws IOException {
 
-        Controller controller = new LoginController(new UserServiceImpl());
+        Controller controller = new LoginController(new UserServiceImpl(userRepository));
         Database.loadUser();
         Map<String,String> params = new HashMap<>();
         Map<String,String> headers = new HashMap<>();

@@ -23,7 +23,7 @@ public class UserServiceImplTest {
     @Test
     @DisplayName("동일한 Id의 유저 가입실패 테스트")
     void signupFailureTest() throws IOException {
-        UserServiceImpl userService = new UserServiceImpl();
+        UserServiceImpl userService = new UserServiceImpl(userRepository);
 
         User user1 = new User("user1","pw1","name1","email");
         User user2 = new User("user1","pw2","name2","email2");
@@ -39,7 +39,7 @@ public class UserServiceImplTest {
     @Test
     @DisplayName("login 시 user가 회원가입 되지 않은 경우 NoSuchUserException 발생 ")
     void loginNotFoundUserTest(){
-        UserServiceImpl userService = new UserServiceImpl();
+        UserServiceImpl userService = new UserServiceImpl(userRepository);
 
         LoginData user1 = new LoginData("user1","pw1");
 
@@ -51,7 +51,7 @@ public class UserServiceImplTest {
     @Test
     @DisplayName("login 시 user의 비밀번호가 틀린 경우 BadCredentialsException 발생")
     void loginInvalidPasswordException() throws IOException {
-        UserService userService = new UserServiceImpl();
+        UserService userService = new UserServiceImpl(userRepository);
         User user1 = new User("user1","pw1","name1","email");
         LoginData user2 = new LoginData("user1","pw2");
 
