@@ -1,4 +1,4 @@
-package webserver.exceptionController;
+package webserver.exceptionResponseFactory;
 
 import webserver.http.StatusCode;
 import webserver.http.response.Response;
