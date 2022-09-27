@@ -1,6 +1,7 @@
 package webserver.exceptionResponseFactory;
 
 import exception.*;
+import webserver.http.StatusCode;
 import webserver.http.response.Response;
 import webserver.http.response.responseBody.TextResponseBody;
 
@@ -14,12 +15,12 @@ public class ExceptionHandler {
     public ExceptionHandler(){}
 
     public Response createResponse(String httpVersion,Exception e) throws IOException {
-        Response response = new Response(httpVersion,new TextResponseBody(e.getMessage()));
 
         ExceptionResponseFactory exceptionResponseFactory = getExceptionResponseFactory(e.getClass());
-        exceptionResponseFactory.setStatusCode(response);
-        exceptionResponseFactory.setHeaders(response);
-        return response;
+        StatusCode statusCode = exceptionResponseFactory.getStatusCode();
+        Map<String,String> headers = exceptionResponseFactory.getHeaders();
+
+        return new Response(httpVersion,statusCode,headers,new TextResponseBody(e.getMessage()));
     }
 
     private ExceptionResponseFactory getExceptionResponseFactory(Class<?> c){
