@@ -27,8 +27,8 @@ public class LoginController implements Controller{
         Response response = new Response(request.getHttpVersion(),StatusCode.FOUND,new DefaultResponseBody());
 
         userService.login(loginData);
-        response.setLocation(StringConstants.INDEX_PATH);
-        response.setCookie(StringConstants.LOGIN_COOKIE);
+        response.setLocation(Constants.INDEX_PATH);
+        response.setCookie(Constants.LOGIN_COOKIE);
 
         return response;
     }
