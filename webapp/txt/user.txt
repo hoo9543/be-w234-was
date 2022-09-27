@@ -1,6 +1,0 @@
-User [userId=x, password=y, name=z, email=q%40q]
-User [userId=a, password=b, name=c, email=d%40d]
-User [userId=c, password=d, name=x, email=b%40b]
-User [userId=user, password=pw, name=name, email=email]
-User [userId=user1, password=pw1, name=name1, email=email]
-User [userId=user1, password=pw1, name=name1, email=email]

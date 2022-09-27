@@ -2,7 +2,7 @@ package webserver.http.response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import webserver.http.StringConstants;
+import webserver.http.Constants;
 import webserver.http.StatusCode;
 import webserver.http.response.responseBody.ResponseBody;
 
@@ -17,7 +17,7 @@ import static webserver.http.StatusCode.OK;
 public class Response {
     private String httpVersion ="";
     private StatusCode statusCode=OK;
-    private Map<String,String> headers=new HashMap<>();
+    private Map<String,String> headers = new HashMap<>();
     private ResponseBody body;
 
     private Map<String,String> cookies=new HashMap<>();
@@ -57,16 +57,27 @@ public class Response {
 
 
 
-    public Response(String httpVersion, StatusCode statusCode, ResponseBody body) {
+    public Response(String httpVersion, StatusCode statusCode,Map<String,String> headers, ResponseBody body) {
         this.httpVersion = httpVersion;
         this.statusCode = statusCode;
         this.body = body;
+        this.headers = headers;
         headers.put("Content-Type", body.getContentType().getDescription());
         if (body.getContentLength() != 0){
             headers.put("Content-Length",String.valueOf(body.getContentLength()));
         }
     }
 
+    /*
+    public Response(String httpVersion, ResponseBody body) {
+        this.httpVersion = httpVersion;
+        this.body = body;
+        headers.put("Content-Type", body.getContentType().getDescription());
+        if (body.getContentLength() != 0){
+            headers.put("Content-Length",String.valueOf(body.getContentLength()));
+        }
+    }
+    */
 
     public void sendResponse(OutputStream out) throws IOException {
         DataOutputStream dos = new DataOutputStream(out);
@@ -84,7 +95,9 @@ public class Response {
             });
 
             dos.writeBytes("\r\n");
-            dos.write(body.getBody(), 0, body.getContentLength());
+            if (getBody() !=null) {
+                dos.write(getBody(), 0, getBody().length);
+            }
             dos.flush();
         } catch (IOException e) {
             logger.error(e.getMessage());
@@ -92,11 +105,11 @@ public class Response {
     }
 
     public void setLocation(String location){
-        headers.put(StringConstants.SET_LOCATION,location);
+        headers.put(Constants.SET_LOCATION,location);
     }
 
     public void setCookie(String cookie){
-        headers.put(StringConstants.SET_COOKIE,cookie);
+        headers.put(Constants.SET_COOKIE,cookie);
     }
 
 }
