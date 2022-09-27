@@ -1,5 +1,6 @@
 package webserver.http.util;
 
+import model.Board;
 import model.LoginData;
 import model.User;
 
@@ -37,5 +38,17 @@ public class UserParser {
         StringBuilder stringBuilder = new StringBuilder();
         users.forEach(user -> stringBuilder.append(user.toString()).append("\r\n"));
         return stringBuilder.toString();
+    }
+
+    public static Board getBoardFromString(String str){
+        Map<String, String> params = HttpRequestUtils.parseQueryString(str);
+        return getBoardFrom(params);
+    }
+
+    public static Board getBoardFrom(Map<String,String> params) {
+        if (params.get("writer") == null || params.get("title") == null || params.get("contents") == null){
+            throw new RuntimeException("Invalid board data");
+        }
+        return new Board(params.get("writer"), params.get("title"), params.get("contents"));
     }
 }
