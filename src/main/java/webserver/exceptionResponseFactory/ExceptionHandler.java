@@ -30,7 +30,7 @@ public class ExceptionHandler {
         return handler;
     }
 
-    public void addHandler(Class<?> c, ExceptionResponseFactory exceptionResponseFactory){
+    public void addExceptionResponseFactory(Class<?> c, ExceptionResponseFactory exceptionResponseFactory){
         exceptionHandlerMap.put(c, exceptionResponseFactory);
     }
 }
