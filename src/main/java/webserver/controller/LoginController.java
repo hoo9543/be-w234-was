@@ -11,6 +11,8 @@ import webserver.http.response.responseBody.DefaultResponseBody;
 import webserver.http.response.Response;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginController implements Controller{
 
@@ -24,11 +26,14 @@ public class LoginController implements Controller{
     public Response process(Request request) throws IOException {
 
         LoginData loginData = UserParser.getLoginDataFrom(request.getBody());
-        Response response = new Response(request.getHttpVersion(),StatusCode.FOUND,new DefaultResponseBody());
-
         userService.login(loginData);
-        response.setLocation(Constants.INDEX_PATH);
-        response.setCookie(Constants.LOGIN_COOKIE);
+
+        Map<String,String> headers = new HashMap<>();
+        headers.put(Constants.SET_LOCATION,Constants.INDEX_PATH);
+        headers.put(Constants.SET_COOKIE,Constants.LOGIN_COOKIE);
+        Response response = new Response(request.getHttpVersion(),StatusCode.FOUND, headers ,new DefaultResponseBody());
+
+
 
         return response;
     }

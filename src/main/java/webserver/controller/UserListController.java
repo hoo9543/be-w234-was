@@ -9,6 +9,7 @@ import webserver.http.response.Response;
 import webserver.http.response.responseBody.TextResponseBody;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import static webserver.http.util.UserParser.getUserStringFrom;
 
@@ -22,7 +23,7 @@ public class UserListController implements Controller{
     @Override
     public Response process(Request request) throws IOException {
 
-        return new Response(request.getHttpVersion(), StatusCode.OK, new TextResponseBody(getUserStringFrom(userService.findAll())));
+        return new Response(request.getHttpVersion(), StatusCode.OK, new HashMap<>(),new TextResponseBody(getUserStringFrom(userService.findAll())));
     }
 
 
