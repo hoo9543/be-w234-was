@@ -19,9 +19,9 @@ public class RequestHandler implements Runnable {
 
     private FrontController frontController;
 
-    public RequestHandler(Socket connectionSocket) throws IOException {
+    public RequestHandler(Socket connectionSocket,FrontController frontController) throws IOException {
         this.connection = connectionSocket;
-        this.frontController = FrontController.getInstance();
+        this.frontController = frontController;
     }
 
     public void run() {
