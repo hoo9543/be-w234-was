@@ -1,5 +1,6 @@
 package webserver.controller;
 
+import exception.NoAuthorizationException;
 import model.Board;
 import model.LoginData;
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ public class BoardSaveController implements Controller{
     @Override
     public Response process(Request request) throws IOException {
 
+        if (!request.logined()){ throw new NoAuthorizationException("No Auth");}
         Board board = getBoardFromString(request.getBody());
         boardService.save(board);
 
