@@ -38,7 +38,7 @@ public class WebServer {
         } else {
             port = Integer.parseInt(args[0]);
         }
-        FrontController frontController = setConfiguration();
+        FrontController frontController = CreateFrontController();
         // 서버소켓을 생성한다. 웹서버는 기본적으로 8080번 포트를 사용한다.
         try (ServerSocket listenSocket = new ServerSocket(port)) {
             logger.info("Web Application Server started {} port.", port);
@@ -52,7 +52,7 @@ public class WebServer {
 
     }
 
-    private static FrontController setConfiguration() {
+    private static FrontController CreateFrontController() {
         UserRepository userRepository = new DbUserRepository();
         BoardRepository boardRepository = new DbBoardRepository();
 
@@ -65,8 +65,8 @@ public class WebServer {
         ExceptionHandler exceptionHandler = new ExceptionHandler();
         setExceptionResponseFactory(exceptionHandler);
 
-        FrontController frontController = new FrontController(controllerMapper, exceptionHandler);
-        return frontController;
+        return new FrontController(controllerMapper, exceptionHandler);
+
     }
 
     private static void setExceptionResponseFactory(ExceptionHandler exceptionHandler) {
