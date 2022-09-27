@@ -15,7 +15,7 @@ import java.util.Map;
 public class FrontController implements Controller{
     private static final Logger logger = LoggerFactory.getLogger(FrontController.class);
     private static ArrayList<String> WHITE_LIST = new ArrayList<>(Arrays.asList("/index.html","/user/create","/user/login"));
-    
+
     private ControllerMapper controllerMapper;
     private ExceptionHandler exceptionHandler;
 
