@@ -1,9 +1,12 @@
 package webserver.exceptionResponseFactory;
 
+import webserver.http.StatusCode;
 import webserver.http.response.Response;
+
+import java.util.Map;
 
 public interface ExceptionResponseFactory {
 
-    public abstract void setHeaders(Response response);
-    public abstract void setStatusCode(Response response);
+    public abstract Map<String,String> getHeaders();
+    public abstract StatusCode getStatusCode();
 }
