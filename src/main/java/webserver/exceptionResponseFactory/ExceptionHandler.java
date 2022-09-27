@@ -1,4 +1,4 @@
-package webserver.exceptionController;
+package webserver.exceptionResponseFactory;
 
 import exception.*;
 import webserver.http.response.Response;
@@ -14,8 +14,9 @@ public class ExceptionHandler {
     public ExceptionHandler(){}
 
     public Response createResponse(String httpVersion,Exception e) throws IOException {
-        ExceptionResponseFactory exceptionResponseFactory = getExceptionResponseFactory(e.getClass());
         Response response = new Response(httpVersion,new TextResponseBody(e.getMessage()));
+
+        ExceptionResponseFactory exceptionResponseFactory = getExceptionResponseFactory(e.getClass());
         exceptionResponseFactory.setStatusCode(response);
         exceptionResponseFactory.setHeaders(response);
         return response;
