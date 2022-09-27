@@ -16,16 +16,15 @@ public class PostUserSaveController implements Controller {
     private static final Logger logger = LoggerFactory.getLogger(PostUserSaveController.class);
     private UserService userService;
 
-    PostUserSaveController(UserService userService){
+    public PostUserSaveController(UserService userService){
         this.userService = userService;}
     @Override
     public Response process(Request request) throws IOException {
-
         User user = UserParser.getUserFromRequestBody(request.getBody());
-
         userService.signUp(user);
+
         Response response = new Response(request.getHttpVersion(), StatusCode.FOUND, new DefaultResponseBody());
-        response.setLocation(StringConstants.INDEX_PATH);
+        response.setLocation(Constants.INDEX_PATH);
 
         return response;
     }
