@@ -68,17 +68,6 @@ public class Response {
         }
     }
 
-    /*
-    public Response(String httpVersion, ResponseBody body) {
-        this.httpVersion = httpVersion;
-        this.body = body;
-        headers.put("Content-Type", body.getContentType().getDescription());
-        if (body.getContentLength() != 0){
-            headers.put("Content-Length",String.valueOf(body.getContentLength()));
-        }
-    }
-    */
-
     public void sendResponse(OutputStream out) throws IOException {
         DataOutputStream dos = new DataOutputStream(out);
         try{
@@ -102,14 +91,6 @@ public class Response {
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
-    }
-
-    public void setLocation(String location){
-        headers.put(Constants.SET_LOCATION,location);
-    }
-
-    public void setCookie(String cookie){
-        headers.put(Constants.SET_COOKIE,cookie);
     }
 
 }
