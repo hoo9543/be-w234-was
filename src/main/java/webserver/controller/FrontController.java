@@ -25,7 +25,6 @@ public class FrontController implements Controller{
     public Response process(Request request) throws IOException{
 
         try {
-            checkAuthorization(request);
             Controller controller = controllerMapper.getController(request.getHttpMethod(), request.getUrl());
             return controller.process(request);
         }catch(RuntimeException e) {
@@ -34,10 +33,4 @@ public class FrontController implements Controller{
         }
     }
 
-    private void checkAuthorization(Request request){
-        Map<String, String> cookie = request.getCookies();
-        if (!request.logined()) {
-            throw new NoAuthorizationException("No Authorization");
-        }
-    }
 }

@@ -5,6 +5,7 @@ import java.net.Socket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import webserver.controller.Controller;
 import webserver.controller.FrontController;
 import webserver.http.request.Request;
 import webserver.http.response.Response;
@@ -17,9 +18,9 @@ public class RequestHandler implements Runnable {
 
     private Socket connection;
 
-    private FrontController frontController;
+    private Controller frontController;
 
-    public RequestHandler(Socket connectionSocket,FrontController frontController) throws IOException {
+    public RequestHandler(Socket connectionSocket, Controller frontController) throws IOException {
         this.connection = connectionSocket;
         this.frontController = frontController;
     }

@@ -1,5 +1,6 @@
 package webserver.controller;
 
+import exception.NoAuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import service.UserService;
@@ -22,7 +23,9 @@ public class UserListController implements Controller{
 
     @Override
     public Response process(Request request) throws IOException {
-
+        if (!request.logined()) {
+            throw new NoAuthorizationException("No Authorization");
+        }
         return new Response(request.getHttpVersion(), StatusCode.OK, new HashMap<>(),new TextResponseBody(getUserStringFrom(userService.findAll())));
     }
 

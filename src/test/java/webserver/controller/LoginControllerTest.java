@@ -2,10 +2,19 @@ package webserver.controller;
 
 import db.Database;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import repository.BoardRepository;
+import repository.DbBoardRepository;
+import repository.DbUserRepository;
+import repository.UserRepository;
+import service.BoardService;
+import service.BoardServiceImpl;
+import service.UserService;
 import service.UserServiceImpl;
+import webserver.http.Constants;
 import webserver.http.HttpMethod;
 import webserver.http.request.Request;
 import webserver.http.StatusCode;
@@ -19,17 +28,29 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class LoginControllerTest {
 
-    @BeforeEach
-    void clear(){
-        Database.clear();
+    private ControllerMapper controllerMapper = new ControllerMapper();
+    @BeforeAll
+    void setUp(){
+        UserRepository userRepository = new DbUserRepository();
+        BoardRepository boardRepository = new DbBoardRepository();
+
+        UserService userService = new UserServiceImpl(userRepository);
+        BoardService boardService = new BoardServiceImpl(boardRepository);
+
+
+        controllerMapper.addController(HttpMethod.POST, Constants.USER_CREATE_PATH,new PostUserSaveController(userService));
+        controllerMapper.addController(HttpMethod.POST,Constants.USER_LOGIN_PATH,new LoginController(userService));
+        controllerMapper.addController(HttpMethod.GET,Constants.USER_LIST_PATH,new UserListController(userService));
+        controllerMapper.addController(HttpMethod.POST,Constants.BOARD_CREATE_PATH,new BoardSaveController(boardService));
+        controllerMapper.addController(HttpMethod.GET,Constants.BOARD_LIST_PATH,new BoardListController(boardService));
     }
 
     @Test
     @DisplayName("login 성공 시 redirect 주소와 cookie, status code가 잘 설정되었는지 확인 ")
     void loginSuccessTest() throws IOException {
 
-        Controller controller = new LoginController(new UserServiceImpl(userRepository));
-        Database.loadUser();
+
+        Controller controller = new LoginController(new UserServiceImpl(new DbUserRepository()));
         Map<String,String> params = new HashMap<>();
         Map<String,String> headers = new HashMap<>();
         String body = "userId=user&password=pw&name=name&email=email";
